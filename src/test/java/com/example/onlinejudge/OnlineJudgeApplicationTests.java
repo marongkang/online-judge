@@ -41,4 +41,9 @@ class OnlineJudgeApplicationTests {
         System.out.println(controller.getProblemInfo(1).toString());
     }
 
+    @Test
+    public void hello() {
+        System.out.println("Hello");
+    }
+
 }
