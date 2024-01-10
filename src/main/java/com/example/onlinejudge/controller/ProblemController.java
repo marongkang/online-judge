@@ -5,6 +5,7 @@ import com.example.onlinejudge.controller.webRet.ProblemRet;
 import com.example.onlinejudge.model.Problem;
 import com.example.onlinejudge.service.ProblemService;
 import org.json.JSONObject;
+import org.json.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,11 +70,18 @@ public class ProblemController {
         Object[] inputs = obj.getJSONArray("inputs").toList().toArray();
         Object[] outputs = obj.getJSONArray("outputs").toList().toArray();
         Object[] timeLimits = obj.getJSONArray("timeLimits").toList().toArray();
-        String inputsArr[] = Arrays.stream(inputs).toArray(String[]::new);
-        String outputsArr[] = Arrays.stream(outputs).toArray(String[]::new);
-        Integer tlArr[] = Arrays.stream(timeLimits).toArray(Integer[]::new);
 
-        // TODO: 校参
+        if (name.length() == 0 || description.length() == 0 || sampleOutput.length() == 0) {
+            return new CommonIDRet(-1, "名称或描述或样例输出不能为空", -1);
+        }
+
+        if (inputs.length != outputs.length || inputs.length != timeLimits.length) {
+            return new CommonIDRet(-1, "输入输出和时间限制数组长度不匹配", -1);
+        }
+
+        String[] inputsArr = Arrays.stream(inputs).toArray(String[]::new);
+        String[] outputsArr = Arrays.stream(outputs).toArray(String[]::new);
+        Integer[] tlArr = Arrays.stream(timeLimits).toArray(Integer[]::new);
 
         int id = problemService.addProblem(name, description, sampleInput, sampleOutput, inputsArr, outputsArr, tlArr);
         if (id < 0) {

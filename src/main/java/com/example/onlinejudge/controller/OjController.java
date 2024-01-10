@@ -4,6 +4,7 @@ import com.example.onlinejudge.service.OjService;
 import com.example.onlinejudge.controller.webRet.JudgeCode;
 import com.example.onlinejudge.controller.webRet.JudgeRet;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -13,7 +14,9 @@ import java.io.IOException;
 @RequestMapping("/oj")
 public class OjController {
 
+    @Autowired
     OjService ojService;
+
     @PostMapping
     @ResponseBody
     public JudgeRet codeSubmit(@RequestBody String submit) throws IOException, InterruptedException {
