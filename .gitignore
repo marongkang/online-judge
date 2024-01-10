@@ -33,3 +33,9 @@ build/
 .vscode/
 
 EMavenRepo/
+
+.mvn
+
+.*
+
+judge/

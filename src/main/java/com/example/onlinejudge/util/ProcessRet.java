@@ -1,7 +1,14 @@
 package com.example.onlinejudge.util;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.ArrayList;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProcessRet {
     @Override
     public String toString() {
@@ -12,26 +19,6 @@ public class ProcessRet {
     }
 
     private int exitStatus;
-    private ArrayList<String> output;
+    private String output;
 
-    public ProcessRet(int exitStatus, ArrayList<String> output) {
-        this.exitStatus = exitStatus;
-        this.output = output;
-    }
-
-    public int getExitStatus() {
-        return exitStatus;
-    }
-
-    public void setExitStatus(int exitStatus) {
-        this.exitStatus = exitStatus;
-    }
-
-    public ArrayList<String> getOutput() {
-        return output;
-    }
-
-    public void setOutput(ArrayList<String> output) {
-        this.output = output;
-    }
 }

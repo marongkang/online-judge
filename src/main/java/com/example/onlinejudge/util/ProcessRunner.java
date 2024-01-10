@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,13 +20,15 @@ public class ProcessRunner {
 
         // 读取输出
         String line;
-        ArrayList<String> output = new ArrayList<>();
+        StringBuilder output = new StringBuilder();
         var bufferReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         while ((line = bufferReader.readLine()) != null) {
-            output.add(line);
+            output.append(line).append("\n");
         }
-
-        return new ProcessRet(process.waitFor(), output);
+        if (output.length() != 0) {
+            output.deleteCharAt(output.length() - 1);
+        }
+        return new ProcessRet(process.waitFor(), output.toString());
     }
 
     // 单位毫秒
@@ -57,16 +58,20 @@ public class ProcessRunner {
         out.close();
 
         // 读取输出
+        StringBuilder output = new StringBuilder();
         String line;
-        ArrayList<String> output = new ArrayList<>();
         var bufferReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+
+
         while ((line = bufferReader.readLine()) != null) {
-            output.add(line);
+            System.out.println(line);
+            output.append(line).append("\n");
         }
+        output.deleteCharAt(output.length() - 1);
 
         int ret = process.waitFor();
         timer.cancel();
-        return new ProcessRet(ret, output);
+        return new ProcessRet(ret, output.toString());
     }
 }
 
