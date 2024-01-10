@@ -74,7 +74,7 @@ class OnlineJudgeApplicationTests {
 
     @SneakyThrows
     @Test
-    public void basicUserTest() throws IOException, InterruptedException {
+    public void basicUserTest() {
         var map = new HashMap<String, Object>();
         // 用户注册
         map.put("name", "zjy");
