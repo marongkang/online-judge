@@ -63,11 +63,14 @@ public class ProcessRunner {
         var bufferReader = new BufferedReader(new InputStreamReader(process.getInputStream()));
 
 
+        // 以"\n"拼接每一行
         while ((line = bufferReader.readLine()) != null) {
-            System.out.println(line);
             output.append(line).append("\n");
         }
-        output.deleteCharAt(output.length() - 1);
+
+        if (output.length() != 0) {
+            output.deleteCharAt(output.length() - 1);
+        }
 
         int ret = process.waitFor();
         timer.cancel();
