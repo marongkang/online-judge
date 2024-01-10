@@ -61,7 +61,7 @@ public class ProblemController {
 
     @PostMapping
     @ResponseBody
-    public CommonIDRet addProblem(@RequestBody String submit) throws IOException, InterruptedException {
+    public CommonIDRet addProblem(@RequestBody String submit) {
         var obj = new JSONObject(submit);
         String name = obj.getString("name");
         String description = obj.getString("description");
