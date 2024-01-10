@@ -7,6 +7,7 @@ import com.example.onlinejudge.model.Judge;
 import com.example.onlinejudge.model.Problem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,26 +35,28 @@ public class ProblemService {
     /**
      * @return 成功时返回ID, 失败返回-1
      */
-    public int addProblem(String name, String description, String sampleInput, String sampleOutput, String[] inputs, String[] outputs, Integer[] timeLimits) {
+    @Transactional
+    public int addProblem(String name, String description, String sampleInput, String sampleOutput, String[] inputs, String[] outputs, Integer[] timeLimits)
+            throws RuntimeException {
+        Problem problem = new Problem(name, description, sampleInput, sampleOutput);
         if (inputs.length != outputs.length || inputs.length != timeLimits.length) {
             return -1;
+
         }
         // 添加problem信息
-        if (probDao.insert(new Problem(name, description, sampleInput, sampleOutput)) == 0) {
-            return -1;
+        if (probDao.insertProblem(problem) == 0) {
+            throw new RuntimeException();
         }
 
         // 获取自动生成的ID
-        Problem prob = this.getproblemByName(name);
-        if (prob == null) {
-            return -1;
-        }
-        int ID = prob.getId();
+        int ID = problem.getId();
+
+        if (ID <= 0) throw new RuntimeException();
 
         // 添加多条评测信息
         for (int i = 0; i < inputs.length; i++) {
             if (judgeDao.insert(new Judge(ID, inputs[i], outputs[i], timeLimits[i])) == 0) {
-                return -1;
+               throw new RuntimeException();
             }
         }
 

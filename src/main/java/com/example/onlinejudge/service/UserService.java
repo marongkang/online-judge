@@ -13,17 +13,22 @@ public class UserService {
     UserMapper userMapper;
 
     public int addUser(String name, String encodedPwd) {
-        if (userMapper.insert(new User(name, encodedPwd)) == 0) {
+//        if (userMapper.insert(new User(name, encodedPwd)) == 0) {
+//            return -1;
+//        }
+//
+//        // 获取自动生成的ID
+//        User user = this.getUserByName(name);
+//        if (user == null) {
+//            return -1;
+//        }
+//        int ID = user.getId();
+//        return ID;
+        User user = new User(name, encodedPwd);
+        if (userMapper.insertUser(user) == 0) {
             return -1;
         }
-
-        // 获取自动生成的ID
-        User user = this.getUserByName(name);
-        if (user == null) {
-            return -1;
-        }
-        int ID = user.getId();
-        return ID;
+        return user.getId();
     }
 
     public User getUserByID(int id) {

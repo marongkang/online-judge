@@ -74,9 +74,10 @@ public class ProblemController {
         Integer tlArr[] = Arrays.stream(timeLimits).toArray(Integer[]::new);
 
         // TODO: 校参
-
-        int id = problemService.addProblem(name, description, sampleInput, sampleOutput, inputsArr, outputsArr, tlArr);
-        if (id < 0) {
+        int id;
+        try {
+            id = problemService.addProblem(name, description, sampleInput, sampleOutput, inputsArr, outputsArr, tlArr);
+        } catch (RuntimeException e) {
             return new CommonIDRet(-1, "添加问题失败", -1);
         }
         return new CommonIDRet(0, "添加问题成功", 0);

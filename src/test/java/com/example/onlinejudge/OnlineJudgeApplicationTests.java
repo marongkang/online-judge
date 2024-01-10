@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 
 @SpringBootTest
@@ -76,7 +77,7 @@ class OnlineJudgeApplicationTests {
     }
 
     @Test
-    public void basicUserTest() throws IOException, InterruptedException {
+    public void basicUserTest() throws IOException, InterruptedException, NoSuchAlgorithmException {
         var map = new HashMap<String, Object>();
         // 用户注册
         map.put("name", "zjy");

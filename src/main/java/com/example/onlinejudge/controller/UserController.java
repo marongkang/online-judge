@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Map;
 
 @CrossOrigin
@@ -19,7 +21,7 @@ public class UserController {
     @Autowired
     private UserService userService;
     @PostMapping("/login")
-    public CommonRet login(@RequestBody JSONObject obj) {
+    public CommonRet login(@RequestBody JSONObject obj) throws NoSuchAlgorithmException {
         String name = obj.getString("name");
         String pwd = obj.getString("pwd");
 
@@ -28,7 +30,8 @@ public class UserController {
             return new CommonRet(-1, "用户名或密码格式不合法");
         }
 
-        String encodedPwd = MD5Encoder.encode(pwd.getBytes());
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        String encodedPwd = MD5Encoder.encode(md.digest(pwd.getBytes()));
         User user = userService.getUserByName(name);
         if (user == null) {
             return new CommonRet(-1, "用户不存在");
@@ -41,7 +44,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public CommonIDRet register(@RequestBody Map<String, Object> map) {
+    public CommonIDRet register(@RequestBody Map<String, Object> map) throws NoSuchAlgorithmException {
         String name = (String) map.get("name");
         String pwd = (String) map.get("pwd");
 
@@ -50,7 +53,8 @@ public class UserController {
             return new CommonIDRet(-1, "用户名或密码格式不合法", -1);
         }
 
-        String encodedPwd = MD5Encoder.encode(pwd.getBytes());
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        String encodedPwd = MD5Encoder.encode(md.digest(pwd.getBytes()));
         int id = userService.addUser(name, encodedPwd);
         if (id < 0) {
             return new CommonIDRet(-1, "添加用户失败", -1);
