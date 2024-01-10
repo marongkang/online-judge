@@ -83,10 +83,16 @@ public class ProblemController {
         String[] outputsArr = Arrays.stream(outputs).toArray(String[]::new);
         Integer[] tlArr = Arrays.stream(timeLimits).toArray(Integer[]::new);
 
-        int id = problemService.addProblem(name, description, sampleInput, sampleOutput, inputsArr, outputsArr, tlArr);
-        if (id < 0) {
+        int id = 0;
+        try {
+            id = problemService.addProblem(name, description, sampleInput, sampleOutput, inputsArr, outputsArr, tlArr);
+        } catch (RuntimeException e) {
             return new CommonIDRet(-1, "添加问题失败", -1);
         }
-        return new CommonIDRet(0, "添加问题成功", 0);
+
+        if (id <= 0) {
+            return new CommonIDRet(-1, "添加问题失败", -1);
+        }
+        return new CommonIDRet(0, "添加问题成功", id);
     }
 }

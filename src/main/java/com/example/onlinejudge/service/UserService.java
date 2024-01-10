@@ -13,6 +13,7 @@ public class UserService {
     UserMapper userMapper;
 
     public int addUser(String name, String encodedPwd) {
+
         if (userMapper.insert(new User(name, encodedPwd)) == 0) {
             return -1;
         }

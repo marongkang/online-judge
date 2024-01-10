@@ -6,6 +6,7 @@ import com.example.onlinejudge.controller.ProblemController;
 import com.example.onlinejudge.controller.UserController;
 import com.example.onlinejudge.controller.webRet.CommonIDRet;
 import com.example.onlinejudge.controller.webRet.CommonRet;
+import com.example.onlinejudge.controller.webRet.FinalCommonRet;
 import com.example.onlinejudge.model.Problem;
 import com.example.onlinejudge.controller.webRet.JudgeCode;
 import lombok.SneakyThrows;
@@ -78,12 +79,12 @@ class OnlineJudgeApplicationTests {
         // 用户注册
         map.put("name", "zjy");
         map.put("pwd", "123456");
-        CommonRet ret = userController.login(new JSONObject(map));
+        FinalCommonRet ret = userController.login(new JSONObject(map).toString());
 
         if (ret.getCode() < 0) {
             userController.register(map);
         }
 
-        assert userController.login(new JSONObject(map)).getCode() == 0 : "用户登录失败";
+        assert userController.login(new JSONObject(map).toString()).getCode() == 0 : "用户登录失败";
     }
 }

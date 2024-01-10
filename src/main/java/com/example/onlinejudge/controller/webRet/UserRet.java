@@ -1,14 +1,17 @@
 package com.example.onlinejudge.controller.webRet;
 
 import com.example.onlinejudge.model.User;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 public class UserRet extends CommonRet{
-    private User user;
+    private Integer id;
+    private String name;
 
-    public UserRet(Integer code, String msg, User user) {
+    public UserRet(Integer code, String msg, Integer id, String name) {
         super(code, msg);
-        this.user = user;
+        this.id = id;
+        this.name = name;
     }
 }
