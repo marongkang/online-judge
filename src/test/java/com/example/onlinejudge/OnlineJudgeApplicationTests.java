@@ -74,17 +74,17 @@ class OnlineJudgeApplicationTests {
 
     @SneakyThrows
     @Test
-    public void basicUserTest() throws IOException, InterruptedException {
+    public void basicUserTest() throws IOException, InterruptedException, NoSuchAlgorithmException {
         var map = new HashMap<String, Object>();
         // 用户注册
         map.put("name", "zjy");
         map.put("pwd", "123456");
-        FinalCommonRet ret = userController.login(new JSONObject(map).toString());
+        FinalCommonRet ret = userController.login(String.valueOf(new JSONObject(map)));
 
         if (ret.getCode() < 0) {
             userController.register(map);
         }
 
-        assert userController.login(new JSONObject(map).toString()).getCode() == 0 : "用户登录失败";
+        assert userController.login(String.valueOf(new JSONObject(map))).getCode() == 0 : "用户登录失败";
     }
 }
